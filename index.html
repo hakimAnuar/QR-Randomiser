@@ -45,24 +45,36 @@
         // Replace the placeholder links with your actual URLs.
         const destinationLinks = [
             "https://forms.office.com/r/DKCEF3P73a",   // Link 1
-            //"https://forms.office.com/r/j9Asx8njYc",    // Link 2
-            //"https://forms.office.com/r/1ScccbgYcg", // Link 3
-            //"https://forms.office.com/r/sUTLX6PjzQ",    // Link 4
-            //"https://forms.office.com/r/Ug5fZCPxUm"  // Link 5
+            "https://forms.office.com/r/j9Asx8njYc",    // Link 2
+            "https://forms.office.com/r/1ScccbgYcg", // Link 3
+            "https://forms.office.com/r/sUTLX6PjzQ",    // Link 4
+            "https://forms.office.com/r/Ug5fZCPxUm"  // Link 5
         ];
 
         /**
-         * This function selects a random link from the array and redirects the browser.
+         * This function selects the next link sequentially from the array and redirects the browser.
+         * Uses localStorage to track the current position (1-5, then repeats).
          */
         function randomRedirect() {
-            // Get a random index number from 0 to 4
-            const randomIndex = Math.floor(Math.random() * destinationLinks.length);
+            // Get the current position from localStorage, default to 0
+            let currentIndex = localStorage.getItem('linkIndex');
             
-            // Get the URL from the array using the random index
-            const randomUrl = destinationLinks[randomIndex];
+            // If not set or invalid, start at 0
+            if (currentIndex === null) {
+                currentIndex = 0;
+            } else {
+                // Convert to number and move to next
+                currentIndex = (parseInt(currentIndex) + 1) % destinationLinks.length;
+            }
             
-            // Redirect the user to the randomly selected URL
-            window.location.href = randomUrl;
+            // Save the current index for next time
+            localStorage.setItem('linkIndex', currentIndex);
+            
+            // Get the URL from the array using the sequential index
+            const sequentialUrl = destinationLinks[currentIndex];
+            
+            // Redirect the user to the sequentially selected URL
+            window.location.href = sequentialUrl;
         }
 
         // --- Step 2: No changes needed below this line ---
@@ -72,6 +84,5 @@
 
 </body>
 </html>
-
 
 
